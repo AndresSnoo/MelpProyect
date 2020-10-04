@@ -1,0 +1,63 @@
+<app-header></app-header>
+
+
+
+<div class="container-fluid">
+  <div class="container principal">
+    <h1 style="padding-top: 30px;">Restaurants</h1>
+    <div class="col text-right">
+      <div ngbDropdown placement="top-right" class="d-inline-block">
+        <button class="btn btn-secondary dropdown-toggle"  ngbDropdownToggle>ordenar</button>
+        <div ngbDropdownMenu >
+          <button (click) = "sort('name')" ngbDropdownItem>Alfabeticamente</button>
+          <button (click) = "sort('rating')" ngbDropdownItem>Clasificación</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 50px;">
+      <div class="col-lg-12 text-center">
+        <div class="row" *ngIf="restaurantsToShow ">
+
+
+          <!--carga las tarjetas con el contenido de los restaurantes-->
+          <app-card class="col-lg-4 col-md-12 mb-4" *ngFor="let restaurant of allRestaurants | orderPipe: order"
+            [restaurant]=restaurant>
+          </app-card>
+
+       
+
+        </div>
+      </div>
+    </div>
+
+    <app-map (mapClicked)="searchNearRestaurants($event)"></app-map>
+
+    <br><br>
+
+    <table class="table" *ngIf="restaurantsAround">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Adress</th>
+          <th scope="col">Distance</th>
+          <th scope="col">Average Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let restaurant of restaurantsAround">
+          <td>{{restaurant.name}}</td>
+          <td>{{restaurant.address}}</td>
+          <td>{{restaurant.distance}} m</td>
+          <td>{{restaurant.averageRating}}</td>
+        </tr>
+        <tr *ngIf="restaurantsAround.length == 0">
+          <td class="align-middle"> No encontramos restaurantes cerca de esa ubicación</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>
+<app-footer></app-footer>
